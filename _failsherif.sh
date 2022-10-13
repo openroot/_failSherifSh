@@ -20,14 +20,21 @@ echo
 # region function
 
 fs_autooperation_auto=0 # default auto-operation is disabled
-fs_autooperation_delayinsec=1 # default value in seconds(s)
+fs_autooperation_delayinsec=1 # default delay value in seconds(s)
+fs_autooperation_freshscreen=0 # default value is not fresh screen
 # function to configure auto-operation
 function fs.autooperation () {
-	if [ $fs_autooperation_auto == 0 ]; then 	# entering in auto-operation first time
+	if [[ $fs_autooperation_auto == 0 ]]; then 	# entering in auto-operation first time
 		fs_autooperation_auto=1
 		echo
 		read -rp "Enter delay in second(s) for auto operation: " "fs_autooperation_delayinsec"
+		read -rp "Enter [any key/0] for fresh screen: " "fs_autooperation_freshscreen"
 	fi
+}
+
+function fs.datetime () {
+	local now=$(date +"%d-%m-%Y %R:%S, %A")
+	echo "$now"
 }
 
 function fs.samplefunction () {
@@ -46,22 +53,31 @@ function fs.codetestfunction () {
 
 fs_restapiinvoke_lastresult=""
 function fs.restapiinvoke () {
-	if [ "$fs_restapiinvoke_lastresult" != "" ]; then
-		clear
-		echo "Response from server: "
-		echo "$fs_restapiinvoke_lastresult"
-		echo
+	# entering past 1st time; printing the last result till current await request completed; this if segment only needed if fresh screen requested
+	if ! [[ $fs_autooperation_freshscreen == 0 ]]; then
+		if [[ $fs_restapiinvoke_lastresult != "" ]]; then
+			clear
+			echo "Response from server: "
+			echo -e "$fs_restapiinvoke_lastresult"
+			echo
+		fi
 	fi
 
 	#result=$(curl --silent GET --header "Accept: */*" "https://corona-virus-stats.herokuapp.com/api/v1/cases/general-stats")
 	#result=$(curl -# GET --header "Accept: */*" "https://corona-virus-stats.herokuapp.com/api/v1/cases/general-stats")
 	result=$(curl -X GET --header "Accept: */*" "https://corona-virus-stats.herokuapp.com/api/v1/cases/general-stats")
+	formattedoutput="$result\n\ndate time = $(fs.datetime)"
 
-	clear
+	# entering past 1st time; this if segment only needed if fresh screen requested
+	if ! [[ $fs_autooperation_freshscreen == 0 ]]; then
+		if [[ $fs_restapiinvoke_lastresult != "" ]]; then
+			clear
+		fi
+	fi
+
 	echo "Response from server: "
-	echo $result
-
-	fs_restapiinvoke_lastresult=$result
+	echo -e $formattedoutput
+	fs_restapiinvoke_lastresult=$formattedoutput
 }
 
 # region end
@@ -76,16 +92,22 @@ echo
 # region execute
 
 while : ; do
-	if [ $fs_autooperation_auto == 0 ]; then
-		read -rp "Please enter option for operation [a|A/b|B/c|C/n|no]: " "operation"
+	if [[ $fs_autooperation_auto == 0 ]]; then
+		read -rp "Please enter option for operation [0|a|A/b|B/c|C/n|no]: " "operation"
 		echo "Entered option = $operation."
 		echo
 	else
 		sleep $fs_autooperation_delayinsec
-		#clear
+		if ! [[ $fs_autooperation_freshscreen == 0 ]]; then
+			clear
+		fi
 	fi
 
     case $operation in
+
+	0)
+		clear # clears the screen
+	;;
 
 	a)
 		fs.samplefunction
