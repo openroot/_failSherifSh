@@ -18,38 +18,38 @@ echo
 # region end
 
 # region function
-# region end
 
-
-# region testing
-
-	# attested start
-	value1=100.12
-	value2=3
-	scale=3
-	total=$(math.arith $(math.arith $value1 '*' $value2 $scale) '/' 20 3)
+function fs.samplefunction () {
+	local value1=100.12
+	local value2=3
+	local scale=3
+	local total=$(math.arith $(math.arith $value1 '*' $value2 $scale) '/' 20 3)
 	echo ",say sample ~math arithmetic operation :: ($value1 * $value2) / 20 = $total"
-	# attested end
+}
 
-	echo
+function fs.codetestfunction () {
+	# attested start
+	echo ",functional area an to test sh codes"
+	
+	# attested end
+}
 
 # region end
 
 # region input
 
 read -rp "Please enter operation: " "operation"
+echo "Entered option = $operation."
 echo
 
 case $operation in
 
   1 | a | "A")
-    echo "Option 1st entered."
-	echo "\\\\TODO: execute operation 1st"
+	fs.samplefunction
     ;;
 
   2 | b | "B")
-    echo "Option 2nd entered."
-	echo "\\\\TODO: execute operation 2nd"
+	fs.codetestfunction
     ;;
 
   3 | c | "C")
@@ -62,6 +62,7 @@ case $operation in
 	echo "\\\\TODO: exit snapshot"
     ;;
 esac
+echo
 
 # region end
 
@@ -73,7 +74,6 @@ esac
 
 # region exit
 
-echo
 echo ",say enter any string to exit: "
 read dump
 echo "$dump"
