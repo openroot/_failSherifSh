@@ -1,6 +1,6 @@
 #!/bin/bash
 # Name: _failsherif.sh
-# Purpose: _failsherif bash script
+# Purpose: failsherif bash script
 # -------------------------------
 
 # region welcome
