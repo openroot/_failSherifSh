@@ -86,4 +86,7 @@ done
 # region end
 
 # region exit
+
+echo "App executed successfully."
+
 # region end
