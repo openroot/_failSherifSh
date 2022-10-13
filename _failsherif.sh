@@ -38,9 +38,13 @@ function fs.codetestfunction () {
 
 # region input
 
-read -rp "Please enter operation: " "operation"
+read -rp "Please enter option for operation: " "operation"
 echo "Entered option = $operation."
 echo
+
+# region end
+
+# region execute
 
 case $operation in
 
@@ -64,9 +68,6 @@ case $operation in
 esac
 echo
 
-# region end
-
-# region execute
 # region end
 
 # region report
