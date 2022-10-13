@@ -38,35 +38,47 @@ function fs.codetestfunction () {
 
 # region input
 
-read -rp "Please enter option for operation: " "operation"
-echo "Entered option = $operation."
+echo "!press [n] anytime exit app"
 echo
 
 # region end
 
 # region execute
 
-case $operation in
+while : ; do
+	read -rp "Please enter option for operation [1|a/2|b/3|c/n|N]: " "operation"
+	echo "Entered option = $operation."
+	echo
 
-  1 | a | "A")
-	fs.samplefunction
-    ;;
+    case $operation in
 
-  2 | b | "B")
-	fs.codetestfunction
-    ;;
+	1 | a | "A")
+		fs.samplefunction
+	;;
 
-  3 | c | "C")
-    echo "Option 3rd entered."
-	echo "\\\\TODO: execute operation 3rd"
-    ;;
+	2 | b | "B")
+		fs.codetestfunction
+	;;
 
-  *)
-    echo "unknown option entered"
-	echo "\\\\TODO: exit snapshot"
-    ;;
-esac
-echo
+	3 | c | "C")
+		echo "Option 3rd entered."
+	;;
+
+	n | "N")
+		# on selection exit the app
+		break
+	;;
+
+	*)
+		echo "[unknown] option entered"
+	;;
+	esac
+	echo
+
+	# following code ; only & only if needed an extra ask for breaking the loop
+	#read -rp "Want to repeat [any key/n]: " "cont"
+    #[[ $cont != "n" ]] || break
+done
 
 # region end
 
@@ -74,9 +86,4 @@ echo
 # region end
 
 # region exit
-
-echo ",say enter any string to exit: "
-read dump
-echo "$dump"
-
 # region end
