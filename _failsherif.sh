@@ -5,7 +5,9 @@
 
 # region source scripts
 
-source ./_modules/_math.sh
+fs_const_dir=`dirname $0`
+source ${fs_const_dir}/_modules/_math.sh
+source ${fs_const_dir}/_services/_rest.sh
 
 # region end
 
@@ -21,14 +23,14 @@ echo
 
 fs_autooperation_auto=0 # default auto-operation is disabled
 fs_autooperation_delayinsec=1 # default delay value in seconds(s)
-fs_autooperation_freshscreen=0 # default value is not fresh screen
+fs_autooperation_freshscreen="y" # default value is not fresh screen
 # function to configure auto-operation
 function fs.autooperation () {
 	if [[ $fs_autooperation_auto == 0 ]]; then 	# entering in auto-operation first time
 		fs_autooperation_auto=1
 		echo
 		read -rp "Enter delay in second(s) for auto operation: " "fs_autooperation_delayinsec"
-		read -rp "Enter [any key/0] for fresh screen: " "fs_autooperation_freshscreen"
+		read -rp "Enter [any key] for fresh screen ;[n] for default screen: " "fs_autooperation_freshscreen"
 	fi
 }
 
@@ -54,7 +56,7 @@ function fs.codetestfunction () {
 fs_restapiinvoke_lastresult=""
 function fs.restapiinvoke () {
 	# entering past 1st time; printing the last result till current await request completed; this if segment only needed if fresh screen requested
-	if ! [[ $fs_autooperation_freshscreen == 0 ]]; then
+	if ! [[ $fs_autooperation_freshscreen == "n" ]]; then
 		if [[ $fs_restapiinvoke_lastresult != "" ]]; then
 			clear
 			echo "Response from server: "
@@ -69,7 +71,7 @@ function fs.restapiinvoke () {
 	formattedoutput="$result\n\ndate time = $(fs.datetime)"
 
 	# entering past 1st time; this if segment only needed if fresh screen requested
-	if ! [[ $fs_autooperation_freshscreen == 0 ]]; then
+	if ! [[ $fs_autooperation_freshscreen == "n" ]]; then
 		if [[ $fs_restapiinvoke_lastresult != "" ]]; then
 			clear
 		fi
@@ -98,7 +100,7 @@ while : ; do
 		echo
 	else
 		sleep $fs_autooperation_delayinsec
-		if ! [[ $fs_autooperation_freshscreen == 0 ]]; then
+		if ! [[ $fs_autooperation_freshscreen == "n" ]]; then
 			clear
 		fi
 	fi
