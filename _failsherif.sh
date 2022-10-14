@@ -68,6 +68,7 @@ function fs.restapiinvoke () {
 	#result=$(curl --silent GET --header "Accept: */*" "https://corona-virus-stats.herokuapp.com/api/v1/cases/general-stats")
 	#result=$(curl -# GET --header "Accept: */*" "https://corona-virus-stats.herokuapp.com/api/v1/cases/general-stats")
 	result=$(curl -X GET --header "Accept: */*" "https://corona-virus-stats.herokuapp.com/api/v1/cases/general-stats")
+	
 	formattedoutput="$result\n\ndate time = $(fs.datetime)"
 
 	# entering past 1st time; this if segment only needed if fresh screen requested
