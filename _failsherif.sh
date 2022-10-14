@@ -21,6 +21,8 @@ echo
 
 # region function
 
+# region helper functions
+
 fs_autooperation_auto=0 # default auto-operation is disabled
 fs_autooperation_delayinsec=1 # default delay value in seconds(s)
 fs_autooperation_freshscreen="y" # default value is not fresh screen
@@ -29,22 +31,28 @@ function fs.autooperation () {
 	if [[ $fs_autooperation_auto == 0 ]]; then 	# entering in auto-operation first time
 		fs_autooperation_auto=1
 		echo
-		read -rp "Enter delay in second(s) for auto operation: " "fs_autooperation_delayinsec"
-		read -rp "Enter [any key] for fresh screen ;[n] for default screen: " "fs_autooperation_freshscreen"
+		echo -e "\tEnter delay in second(s) for auto operation: "
+		read fs_autooperation_delayinsec
+		echo -e "\tEnter [any key] for fresh screen ;[n] for default screen: "
+		read fs_autooperation_freshscreen
 	fi
 }
 
 function fs.datetime () {
-	local now=$(date +"%d-%m-%Y %R:%S, %A")
+	local now=`date +"%d-%m-%Y %R:%S, %A"`
 	echo "$now"
 }
 
+# region end
+
+# region app specific functions 
+
 function fs.samplefunction () {
-	local value1=100.12
-	local value2=3
+	local operand1=100.12
+	local operand2=3
 	local scale=3
-	local total=$(math.arith $(math.arith $value1 '*' $value2 $scale) '/' 20 3)
-	echo ",say sample ~math arithmetic operation :: ($value1 * $value2) / 20 = $total"
+	local result=$(math.arith $(math.arith $operand1 '*' $operand2 $scale) '/' 20 3)
+	echo ",say sample ~math arithmetic operation :: ($operand1 * $operand2) / 20 = $result"
 }
 
 function fs.codetestfunction () {
@@ -65,11 +73,11 @@ function fs.restapiinvoke () {
 		fi
 	fi
 
-	#result=$(curl --silent GET --header "Accept: */*" "https://corona-virus-stats.herokuapp.com/api/v1/cases/general-stats")
-	#result=$(curl -# GET --header "Accept: */*" "https://corona-virus-stats.herokuapp.com/api/v1/cases/general-stats")
-	result=$(curl -X GET --header "Accept: */*" "https://corona-virus-stats.herokuapp.com/api/v1/cases/general-stats")
+	#result=`curl --silent GET --header "Accept: */*" "https://corona-virus-stats.herokuapp.com/api/v1/cases/general-stats"`
+	#result=`curl -# GET --header "Accept: */*" "https://corona-virus-stats.herokuapp.com/api/v1/cases/general-stats"`
+	result=`curl -X GET --header "Accept: */*" "https://corona-virus-stats.herokuapp.com/api/v1/cases/general-stats"`
 	
-	formattedoutput="$result\n\ndate time = $(fs.datetime)"
+	formattedoutput=$result"\n\n\t""date time = "`fs.datetime`
 
 	# entering past 1st time; this if segment only needed if fresh screen requested
 	if ! [[ $fs_autooperation_freshscreen == "n" ]]; then
@@ -85,9 +93,11 @@ function fs.restapiinvoke () {
 
 # region end
 
+# region end
+
 # region input
 
-echo "!press [n] anytime exit app"
+echo -e "\t!press [n] anytime exit app"
 echo
 
 # region end
@@ -96,8 +106,9 @@ echo
 
 while : ; do
 	if [[ $fs_autooperation_auto == 0 ]]; then
-		read -rp "Please enter option for operation [0|a|A/b|B/c|C/n|no]: " "operation"
-		echo "Entered option = $operation."
+		echo -e "\tPlease enter option for operation [0|a|A/b|B/c|C/n|no]: "
+		read operation
+		echo -e "\tEntered option = $operation."
 		echo
 	else
 		sleep $fs_autooperation_delayinsec
