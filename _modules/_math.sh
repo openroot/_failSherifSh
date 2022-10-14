@@ -16,7 +16,7 @@ function math.arith () {
 	local operation=$2
 	local value2=$3
 	local scale=$4
-	local result=$(bc -l <<< "scale=$scale; $value1 $operation $value2")
+	local result=`bc -l <<< "scale=$scale; $value1 $operation $value2"`
 	echo "$result"
 }
 
