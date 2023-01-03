@@ -106,7 +106,7 @@ echo
 
 while : ; do
 	if [[ $fs_autooperation_auto == 0 ]]; then
-		echo -e "\tPlease enter option for operation [0|a|A/b|B/c|C/n|no]: "
+		echo -e "\tPlease enter option for operation [[ 0 | a/A | b/B | c/C | n/no ]]: "
 		read operation
 		echo -e "\tEntered option = $operation."
 		echo
