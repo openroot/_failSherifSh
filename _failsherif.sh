@@ -58,10 +58,10 @@ while : ; do
 	;;
 
 	b)
-		fs.codetestfunction
+		fs.currentdatetime
 	;;
 	B)
-		fs.codetestfunction
+		fs.currentdatetime
 		fs.autooperation
 	;;
 
