@@ -1,11 +1,13 @@
 #!/bin/bash
 # Name: _failsherif.sh
-# Purpose: failsherif bash script
-# -------------------------------
+# Purpose: [ module ] _failsherif bash script
+# -------------------------------------------
 
-# region source scripts
+# region script requires
 
 fs_const_dir=`dirname $0`
+source ${fs_const_dir}/_modules/_modules.sh
+source ${fs_const_dir}/_modules/_helper.sh
 source ${fs_const_dir}/_modules/_math.sh
 source ${fs_const_dir}/_services/_rest.sh
 
@@ -16,82 +18,6 @@ source ${fs_const_dir}/_services/_rest.sh
 echo "_failsherif"
 echo "༂࿐~ +strange easy world"
 echo
-
-# region end
-
-# region function
-
-# region helper functions
-
-fs_autooperation_auto=0 # default auto-operation is disabled
-fs_autooperation_delayinsec=1 # default delay value in seconds(s)
-fs_autooperation_freshscreen="y" # default value is not fresh screen
-# function to configure auto-operation
-function fs.autooperation () {
-	if [[ $fs_autooperation_auto == 0 ]]; then 	# entering in auto-operation first time
-		fs_autooperation_auto=1
-		echo
-		echo -e "\tEnter delay in second(s) for auto operation: "
-		read fs_autooperation_delayinsec
-		echo -e "\tEnter [any key] for fresh screen ;[n] for default screen: "
-		read fs_autooperation_freshscreen
-	fi
-}
-
-function fs.datetime () {
-	local now=`date +"%d-%m-%Y %R:%S, %A"`
-	echo "$now"
-}
-
-# region end
-
-# region app specific functions 
-
-function fs.samplefunction () {
-	local operand1=100.12
-	local operand2=3
-	local scale=3
-	local result=$(math.arith $(math.arith $operand1 '*' $operand2 $scale) '/' 20 3)
-	echo ",say sample ~math arithmetic operation :: ($operand1 * $operand2) / 20 = $result"
-}
-
-function fs.codetestfunction () {
-	# attested start
-	echo ",functional area an to test sh codes"
-	# attested end
-}
-
-fs_restapiinvoke_lastresult=""
-function fs.restapiinvoke () {
-	# entering past 1st time; printing the last result till current await request completed; this if segment only needed if fresh screen requested
-	if ! [[ $fs_autooperation_freshscreen == "n" ]]; then
-		if [[ $fs_restapiinvoke_lastresult != "" ]]; then
-			clear
-			echo "Response from server: "
-			echo -e "$fs_restapiinvoke_lastresult"
-			echo
-		fi
-	fi
-
-	#result=`curl --silent GET --header "Accept: */*" "https://corona-virus-stats.herokuapp.com/api/v1/cases/general-stats"`
-	#result=`curl -# GET --header "Accept: */*" "https://corona-virus-stats.herokuapp.com/api/v1/cases/general-stats"`
-	result=`curl -X GET --header "Accept: */*" "https://corona-virus-stats.herokuapp.com/api/v1/cases/general-stats"`
-	
-	formattedoutput=$result"\n\n\t""date time = "`fs.datetime`
-
-	# entering past 1st time; this if segment only needed if fresh screen requested
-	if ! [[ $fs_autooperation_freshscreen == "n" ]]; then
-		if [[ $fs_restapiinvoke_lastresult != "" ]]; then
-			clear
-		fi
-	fi
-
-	echo "Response from server: "
-	echo -e $formattedoutput
-	fs_restapiinvoke_lastresult=$formattedoutput
-}
-
-# region end
 
 # region end
 

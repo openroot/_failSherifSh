@@ -1,7 +1,7 @@
 #!/bin/bash
 # Name: _math.sh
-# Purpose: math bash script
-# -------------------------
+# Purpose: [ module ] math bash script
+# ------------------------------------
 
 # region function
 
