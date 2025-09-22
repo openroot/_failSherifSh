@@ -1,7 +1,7 @@
 #!/bin/bash
-# Name: _failsherif.sh
-# Purpose: failsherif bash script
-# -------------------------------
+# Name: _failSherifSh.sh
+# Purpose: failSherifSh bash script
+# ---------------------------------
 
 # region source scripts
 
@@ -11,7 +11,7 @@ source ./_modules/_math.sh
 
 # region welcome
 
-echo "_failsherif"
+echo "_failSherifSh"
 echo "༂࿐~ +strange easy world"
 echo
 
